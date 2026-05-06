@@ -42,11 +42,11 @@ async function signUp(req, res) {
 
     await newUser.save();
 
-    await sendEmail(
-      email,
-      "Your OTP for Habit Flow Email Verification",
-      `Your OTP is ${otp}`,
-    );
+    // await sendEmail(
+    //   email,
+    //   "Your OTP for Habit Flow Email Verification",
+    //   `Your OTP is ${otp}`,
+    // );
 
     return res
       .cookie("signUpToken", signUpToken, {
@@ -60,7 +60,9 @@ async function signUp(req, res) {
       .json({
         success: true,
         message: "Account created successfully!",
-        data: null,
+        data: {
+          otp: otp,
+        },
       });
   } catch (error) {
     return res

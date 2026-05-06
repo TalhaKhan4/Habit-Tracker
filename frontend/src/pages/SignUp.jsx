@@ -16,7 +16,7 @@ const signUpSchema = z.object({
     .min(8, "Password must be at least 8 characters long")
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     ),
 });
 
@@ -48,7 +48,7 @@ function SignUp() {
           },
           credentials: "include",
           body: JSON.stringify(data),
-        }
+        },
       );
 
       const result = await response.json();
@@ -64,7 +64,11 @@ function SignUp() {
         return;
       }
 
-      navigate("/verify-email");
+      navigate("/verify-email", {
+        state: {
+          otp: result.data.otp,
+        },
+      });
     } catch (error) {
       console.log(error);
     } finally {

@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { logIn } from "../features/userSlice.js";
 import Loader from "../components/Loader.jsx";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const otpSchema = z.object({
   otp: z
@@ -17,6 +19,8 @@ const otpSchema = z.object({
 function VerifyEmail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const otp = location.state?.otp;
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -71,6 +75,12 @@ function VerifyEmail() {
     }
   }
 
+  useEffect(() => {
+    alert(
+      "we are having trouple sending otp, we autofilled the otp for you for now!",
+    );
+  }, []);
+
   return (
     <main className="min-h-[100vh] flex flex-col justify-center  items-center">
       <h1 className="text-4xl font-bold text-[rgba(0,0,0,0.85)] text-center mb-3">
@@ -83,6 +93,7 @@ function VerifyEmail() {
         <div className="mb-6">
           <input
             {...register("otp")}
+            value={otp}
             type="text"
             autoComplete="one-time-code"
             className="border-1 rounded-xl border-[#3c3c3c] outline-[#1818ad] focus:border-transparent py-[13px] px-3 placeholder:text-[17px] placeholder:text-gray-400 w-[300px] block"

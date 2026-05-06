@@ -52,6 +52,7 @@ async function signUp(req, res) {
       .cookie("signUpToken", signUpToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 15 * 60 * 1000, // 15 mins
         sameSite: "strict",
       })
@@ -114,13 +115,13 @@ async function verifyEmail(req, res, next) {
       .clearCookie("signUpToken", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       })
       .cookie("authToken", authToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        sameSite: "strict",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       })
       .status(200)
       .json({
@@ -144,7 +145,7 @@ function logOut(req, res, next) {
     .clearCookie("authToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     })
     .status(200)
     .json({
@@ -193,6 +194,7 @@ async function logIn(req, res, next) {
     res
       .cookie("authToken", authToken, {
         httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
